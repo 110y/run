@@ -1,8 +1,14 @@
 package run
 
-import "os"
+import (
+	"os"
+
+	"golang.org/x/sys/unix"
+)
 
 var _ Option = (*funcOption)(nil)
+
+var defaultSignals = []os.Signal{unix.SIGTERM, unix.SIGINT}
 
 type Option interface {
 	apply(*option)
@@ -24,6 +30,19 @@ func newFuncOption(f func(*option)) *funcOption {
 	return &funcOption{
 		f: f,
 	}
+}
+
+func newOption(opts ...Option) *option {
+	o := &option{}
+	for _, opt := range opts {
+		opt.apply(o)
+	}
+
+	if len(o.signals) == 0 {
+		o.signals = defaultSignals
+	}
+
+	return o
 }
 
 func WithSignals(signals ...os.Signal) Option {
