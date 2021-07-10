@@ -8,7 +8,7 @@ import (
 
 var _ Option = (*funcOption)(nil)
 
-var defaultSignals = []os.Signal{unix.SIGTERM, unix.SIGINT}
+var defaultSignals = []os.Signal{unix.SIGHUP, unix.SIGINT, unix.SIGTERM, unix.SIGQUIT}
 
 type Option interface {
 	apply(*option)
