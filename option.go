@@ -10,6 +10,7 @@ var _ Option = (*funcOption)(nil)
 
 var defaultSignals = []os.Signal{unix.SIGHUP, unix.SIGINT, unix.SIGTERM, unix.SIGQUIT}
 
+// Option controls how Run behaves.
 type Option interface {
 	apply(*option)
 }
@@ -45,6 +46,7 @@ func newOption(opts ...Option) *option {
 	return o
 }
 
+// WithSignals returns an Option which specifies which signals will Run wait for with signal.NotifyContext.
 func WithSignals(signals ...os.Signal) Option {
 	return newFuncOption(func(o *option) {
 		o.signals = make([]os.Signal, len(signals))
