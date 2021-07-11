@@ -23,3 +23,5 @@ func main() {
 	})
 }
 ```
+
+See https://pkg.go.dev/github.com/110y/run for more details.
