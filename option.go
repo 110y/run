@@ -49,9 +49,6 @@ func newOption(opts ...Option) *option {
 // WithSignals returns an Option which specifies which signals will Run wait for with signal.NotifyContext.
 func WithSignals(signals ...os.Signal) Option {
 	return newFuncOption(func(o *option) {
-		o.signals = make([]os.Signal, len(signals))
-		for i, s := range signals {
-			o.signals[i] = s
-		}
+		o.signals = signals
 	})
 }
