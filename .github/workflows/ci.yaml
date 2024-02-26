@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+
+  test:
+    permissions:
+      contents: 'read'
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        version:
+          - 1.18.10
+          - 1.19.13
+          - 1.20.14
+          - 1.21.7
+          - 1.22.0
+
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Test
+        run: |
+          docker run \
+            --rm \
+            --volume "$(pwd):/src" \
+            --workdir /src \
+            golang:${{ matrix.version }}-bullseye go test -shuffle on -race ./...
